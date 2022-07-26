@@ -66,11 +66,6 @@ spec:
             - /bin/sh
             - -c
             - "cp -f /certs/* /cockroach-certs/; chmod 0400 /cockroach-certs/*.key"
-          env:
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
           volumeMounts:
             - name: certs
               mountPath: /cockroach-certs/
