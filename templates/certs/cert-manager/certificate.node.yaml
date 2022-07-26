@@ -33,7 +33,7 @@ spec:
     {{- with .Values.tls.certs.certManagerIssuer.organizations }} 
     organizations: {{- toYaml . | nindent 6 }}
     {{- end }}
-  {{- with .Values.tls.ipAddresses -}}
+  {{- with .Values.tls.ipAddresses }}
   ipAddress: {{- toYaml . | nindent 4 }}
   {{- end }}
   dnsNames:
