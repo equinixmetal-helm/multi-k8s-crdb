@@ -24,7 +24,7 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
-  {{- $ports := .Values.service.ports }}
+  {{- $ports := $.Values.service.ports }}
     # The main port, served by gRPC, serves Postgres-flavor SQL, inter-node
     # traffic and the CLI.
     - name: {{ $ports.grpc.external.name | quote }}
