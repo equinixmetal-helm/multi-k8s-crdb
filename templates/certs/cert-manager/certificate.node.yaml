@@ -33,8 +33,9 @@ spec:
     {{- with .Values.tls.certs.certManagerIssuer.organizations }} 
     organizations: {{- toYaml . | nindent 6 }}
     {{- end }}
-  ipAddress:
-    - "127.0.0.1"
+  {{- with .Values.tls.ipAddresses -}}
+  ipAddress: {{- toYaml . | nindent 4 }}
+  {{- end }}
   dnsNames:
     - "localhost"
     - {{ printf "*.%s" .Values.clusterInfo.fqdn | quote }}

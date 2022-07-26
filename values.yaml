@@ -443,6 +443,9 @@ init:
 # Whether to run securely using TLS certificates.
 tls:
   enabled: true
+  ipAddresses:
+    - "127.0.0.1"
+    - "147.75.207.251"
   serviceAccount:
     # Specifies whether this ServiceAccount should be created.
     create: true
