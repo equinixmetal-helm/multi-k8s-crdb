@@ -298,7 +298,8 @@ service:
   
   internal:
     enabled: true
-    labels: {}
+    labels: 
+      app.kubernetes.io/component: cockroachdb
     annotations: {}
 
   # This service only exists to create DNS entries for each pod in
@@ -308,7 +309,7 @@ service:
   discovery:
     # Additional labels to apply to this Service.
     labels:
-      app.kubernetes.io/component: cockroachdb
+      
     # Additional annotations to apply to this Service.
     annotations: {}
 
@@ -558,4 +559,5 @@ iap:
 toolbox:
   enabled: true
   annotations: {}
-  labels: {}
+  labels: 
+    app.kubernetes.io/component: toolbox

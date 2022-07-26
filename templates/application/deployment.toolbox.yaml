@@ -2,19 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "cockroach.name" . }}-toolbox
+  name: {{ template "cockroachdb.name" . }}-toolbox
   annotations:
     argocd.argoproj.io/sync-wave: '10'
-    secret.reloader.stakater.com/reload: {{ template "cockroach.name" . }}-root
-  {{- with .Values.statefulset.annotations }}
+    secret.reloader.stakater.com/reload: {{ template "cockroachdb.name" . }}-root
+  {{- with .Values.toolbox.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    helm.sh/chart: {{ template "cockroach.chart" . }}
-    app.kubernetes.io/name: {{ template "cockroach.name" . }}
+    helm.sh/chart: {{ template "cockroachdb.chart" . }}
+    app.kubernetes.io/name: {{ template "cockroachdb.name" . }}
     app.kubernetes.io/instance: {{ $.Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ $.Release.Service | quote }}
-    app.kubernetes.io/component: toolbox
   {{- with .Values.labels }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -22,30 +21,30 @@ spec:
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "cockroach.name" . }}
-      app.kubernetes.io/instance: {{ $.Release.Name | quote }}
-    {{- with .Values.cockroachdb.labels }}
+      app.kubernetes.io/name: {{ template "cockroachdb.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    {{- with .Values.labels }}
       {{- toYaml . | nindent 6 }}
     {{- end }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "cockroach.name" . }}
-        app.kubernetes.io/instance: {{ $.Release.Name | quote }}
-      {{- with .Values.cockroachdb.labels }}
+        app.kubernetes.io/name: {{ template "cockroachdb.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+      {{- with .Values.labels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      serviceAccountName: {{ template "cockroach.tls.serviceAccount.name" . }}
+      serviceAccountName: {{ template "cockroachdb.tls.serviceAccount.name" . }}
       setHostnameAsFQDN: true
       containers:
       - name: cockroach-toolbox
-        image: {{ .Values.cockroachdb.image.repository }}:{{ .Values.cockroachdb.image.tag }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         env:
         - name: COCKROACH_HOST
-          value: {{ template "cockroach.fullname" . }}-public.{{ .Release.Namespace }}.svc
+          value: {{ template "cockroachdb.fullname" . }}-public.{{ .Release.Namespace }}.svc
         - name: COCKROACH_PORT
-          value: {{ .Values.cockroachdb.service.ports.grpc.port | quote }}
+          value: {{ .Values.service.ports.grpc.port | quote }}
         - name: COCKROACH_CERTS_DIR
           value: /cockroach/cockroach-certs/
         imagePullPolicy: IfNotPresent
@@ -61,12 +60,12 @@ spec:
         projected:
             sources:
               - secret:
-                  name: {{ template "cockroach.name" . }}-node
+                  name: {{ template "cockroachdb.name" . }}-node
                   items:
                     - key: ca.crt
                       path: ca.crt
               - secret:
-                  name: {{ template "cockroach.name" . }}-root
+                  name: {{ template "cockroachdb.name" . }}-root
                   items:
                     - key: tls.crt
                       path: client.root.crt

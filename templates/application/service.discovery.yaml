@@ -41,7 +41,7 @@ spec:
       targetPort: http
   selector:
     app.kubernetes.io/name: {{ template "cockroachdb.name" $ }}
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/instance: {{ $.Release.Name | quote }}
     statefulset.kubernetes.io/pod-name: {{ template "cockroachdb.fullname" $ }}-{{ $i }}
   {{- with $.Values.statefulset.labels }}
     {{- toYaml . | nindent 4 }}
