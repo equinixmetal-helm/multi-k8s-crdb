@@ -25,5 +25,5 @@ metadata:
   name: {{ .Values.tls.certs.certManagerIssuer.name }}
 spec:
   ca:
-    secretName: {{ template"cockroachdb.name" . }}-key-pair
+    secretName: {{ template "cockroachdb.name" . }}-key-pair
 {{- end }}
