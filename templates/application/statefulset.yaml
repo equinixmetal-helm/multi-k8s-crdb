@@ -172,15 +172,7 @@ spec:
             {{- if index .Values.conf `single-node` }}
               start-single-node
             {{- else }}
-              start --join=
-              {{- if .Values.conf.join }}
-                {{- join `,` .Values.conf.join -}}
-              {{- else }}
-                {{- range $i, $_ := until 3 -}}
-                  {{- if gt $i 0 -}},{{- end -}}
-                  ${STATEFULSET_NAME}-{{ $i }}.${STATEFULSET_FQDN}:{{ $.Values.service.ports.grpc.internal.port | int64 -}}
-                {{- end -}}
-              {{- end }}
+              start --join={{ join `,` .Values.conf.join }}
             {{- with index .Values.conf `cluster-name` }}
               --cluster-name={{ . }}
             {{- if index $.Values.conf `disable-cluster-name-verification` }}

@@ -455,7 +455,7 @@ tls:
     # If not set and `create` is `true`, then a name is auto-generated.
     name: ""
   copyCerts:
-    image: busybox
+    image: alpine
   certs:
     # Bring your own certs scenario. If provided, tls.init section will be ignored.
     provided: false
