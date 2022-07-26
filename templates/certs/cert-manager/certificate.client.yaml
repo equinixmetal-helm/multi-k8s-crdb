@@ -25,23 +25,14 @@ spec:
     - client auth
 {{- if .Values.tls.certs.useCertManagerV1CRDs }}
   privateKey:
-    algorithm: RSA
-    size: 2048
-{{- else }}
-  keySize: 2048
-  keyAlgorithm: rsa
-{{- end }}
+    algorithm: EDCSA
+    encoding: PKCS1
+    size: 521
   commonName: root
-{{- if .Values.tls.certs.useCertManagerV1CRDs }}
   subject:
     {{- with .Values.tls.certs.certManagerIssuer.organizations }} 
     organizations: {{- toYaml . | nindent 6 }}
     {{- end }}
-{{- else }}
-  {{- with .Values.tls.certs.certManagerIssuer.organizations }} 
-  organizations: {{- toYaml . | nindent 4 }}
-   {{- end }}
-{{- end }}
   secretName: {{ .Values.tls.certs.clientRootSecret }}
   issuerRef:
     name: {{ .Values.tls.certs.certManagerIssuer.name }}

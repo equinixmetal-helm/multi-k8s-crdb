@@ -3,6 +3,7 @@ clusterInfo:
   fqdn: example.com
 
 nameOverride: crdb
+fullnameOverride: crdb
 
 # Generated file, DO NOT EDIT. Source: build/templates/values.yaml
 image:
@@ -193,7 +194,8 @@ statefulset:
 
   # Additional labels to apply to this StatefulSet and all its Pods.
   labels:
-    app.kubernetes.io/component: cockroachdb
+    app: cockroachdb
+    app.kubernetes.io/heritage: statefulset
 
   # Additional annotations to apply to the Pods of this StatefulSet.
   annotations: {}
@@ -242,13 +244,13 @@ statefulset:
   # Uncomment the following resources definitions or pass them from
   # command line to control the CPU and memory resources allocated
   # by Pods of this StatefulSet.
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 512Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 512Mi
+  resources: 
+    limits:
+      cpu: 2
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 500Mi
 
   # Custom Liveness probe
   # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request
@@ -453,9 +455,9 @@ tls:
     # Bring your own certs scenario. If provided, tls.init section will be ignored.
     provided: false
     # Secret name for the client root cert.
-    clientRootSecret: cockroachdb-root
+    clientRootSecret: crdb-root
     # Secret name for node cert.
-    nodeSecret: cockroachdb-node
+    nodeSecret: crdb-node
     # Enable if the secret is a dedicated TLS.
     # TLS secrets are created by cert-mananger, for example.
     tlsSecret: false
@@ -501,7 +503,7 @@ tls:
     certManagerIssuer:
       group: cert-manager.io
       kind: Issuer
-      name: cockroachdb
+      name: crdb-ca
       # Duration of Client certificates in hours
       clientCertDuration: 2160h
       # Expiry window of client certificates means a window before actual expiry in which client certs should be rotated.
@@ -512,7 +514,7 @@ tls:
       nodeCertExpiryWindow: 720h
       # Set organizations
       organizations: 
-        - Cockroach
+        - crdb
     # Enable if you run cert-manager >=1.0 on K8s <=1.15 with legacy CRDs
     # Legacy CRDs only support cert-manager.io/v1 API Versions
     useCertManagerV1CRDs: true
