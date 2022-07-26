@@ -23,7 +23,6 @@ spec:
     - digital signature
     - key encipherment
     - client auth
-{{- if .Values.tls.certs.useCertManagerV1CRDs }}
   privateKey:
     algorithm: EDCSA
     encoding: PKCS1
