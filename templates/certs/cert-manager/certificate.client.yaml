@@ -24,7 +24,7 @@ spec:
     - key encipherment
     - client auth
   privateKey:
-    algorithm: EDCSA
+    algorithm: ECDSA
     encoding: PKCS1
     size: 521
   commonName: root
