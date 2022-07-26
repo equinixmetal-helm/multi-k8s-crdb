@@ -208,7 +208,7 @@ spec:
             {{- end }}
               --max-sql-memory={{ index .Values.conf `max-sql-memory` }}
             {{- with .Values.conf.locality }}
-              --locality={{ . }}
+              --locality={{- join `,` . }}
             {{- end }}
             {{- with index .Values.conf `sql-audit-dir` }}
               --sql-audit-dir={{ . }}
