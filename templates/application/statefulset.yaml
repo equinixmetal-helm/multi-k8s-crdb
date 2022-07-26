@@ -188,7 +188,7 @@ spec:
             {{- end }}
             {{- end }}
             {{- end }}
-              --advertise-host=$(hostname).${STATEFULSET_FQDN}
+              --advertise-host=$(hostname).{{ .Values.clusterInfo.fqdn }}
             {{- if .Values.tls.enabled }}
               --certs-dir=/cockroach/cockroach-certs/
             {{- else }}
