@@ -179,7 +179,8 @@ statefulset:
 
   # List of additional command-line arguments you want to pass to the
   # `cockroach start` command.
-  args: []
+  args:
+    - --experimental-dns-srv
     # - --disable-cluster-name-verification
 
   # List of extra environment variables to pass into container
@@ -238,7 +239,7 @@ statefulset:
   # https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
   topologySpreadConstraints:
     maxSkew: 1
-    topologyKey: topology.kubernetes.io/zone
+    topologyKey: topology.kubernetes.io/node
     whenUnsatisfiable: ScheduleAnyway
 
   # Uncomment the following resources definitions or pass them from
